@@ -37,7 +37,7 @@ function App() {
   const [turn, setTurn] = useState(turnosArray.X)
   const [winner, setWinner] = useState(null) //null es no hay ganador y false es un empate
 
-  const cheeckWinner = (boardToCheck) => {
+  const checkWinner = (boardToCheck) => {
     for (const combo of winnerCombos) {
       const [a, b, c] = combo
       if (
@@ -57,6 +57,11 @@ function App() {
     setWinner(null)
   }
 
+  const checEndGame = (newBoard) => {
+    //usamos every para ver qeu cada casilla de newBoard sea distinta de null, de ser asi esta funcion devolvera true
+    return newBoard.every((square) => square !== null)
+  }
+
   const updateBoard = (index) => {
     //si la posicion esta ocupada se 
     //hace un return para evitar rellenar
@@ -69,12 +74,11 @@ function App() {
     const newTurn = turn === turnosArray.X ? turnosArray.O : turnosArray.X
     setTurn(newTurn)
     //revisar si hay ganador
-    const newWinner = cheeckWinner(newBoard)
+    const newWinner = checkWinner(newBoard)
     if(newWinner) {
-      setWinner((prevvWinner) => {
-        console.log(`Ganador: ${newWinner}, el anterior era ${prevvWinner}`)
-        return newWinner
-      })
+      setWinner(newWinner)
+    } else if (checEndGame(newBoard)) {
+      setWinner(false)
     }
   }
   
