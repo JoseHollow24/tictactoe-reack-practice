@@ -7,17 +7,26 @@ import { checkWinnerFromLogic, checEndGameFromLogic } from './logic/board'
 import { WinnerModal } from "./components/WinnerModal"
 
 function App() {
-  const [board, setBoard] = useState(Array(9).fill(null))
-  const [turn, setTurn] = useState(turnosArray.X)
+  //states
+  const [board, setBoard] = useState(() => {
+      const boardFromStorage = window.localStorage.getItem('board')
+      return boardFromStorage ? JSON.parse(boardFromStorage) : Array(9).fill(null)
+    }
+  )
+  const [turn, setTurn] = useState(() => {
+    const turnFromStorage = window.localStorage.getItem('turn')
+    return turnFromStorage ?? turnosArray.X
+  })
   const [winner, setWinner] = useState(null) //null es no hay ganador y false es un empate
 
+  //localFunctions
   const resetGame = () => {
     setBoard(Array(9).fill(null))
     setTurn(turnosArray.X)
     setWinner(null)
+    window.localStorage.removeItem('board')
+    window.localStorage.removeItem('turn')
   }
-
-
   const updateBoard = (index) => {
     //si la posicion esta ocupada se 
     //hace un return para evitar rellenar
@@ -26,9 +35,12 @@ function App() {
     const newBoard = [...board]
     newBoard[index] = turn
     setBoard(newBoard)
-
+    
     const newTurn = turn === turnosArray.X ? turnosArray.O : turnosArray.X
     setTurn(newTurn)
+    //set localstorage
+    window.localStorage.setItem('board', JSON.stringify(newBoard))
+    window.localStorage.setItem('turn', newTurn)
     //revisar si hay ganador
     const newWinner = checkWinnerFromLogic(newBoard)
     if(newWinner) {
