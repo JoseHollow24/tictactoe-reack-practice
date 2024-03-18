@@ -1,10 +1,9 @@
-import { useState } from "react"
+import { useState } from 'react'
 import confetti from 'canvas-confetti'
-
-import {Square} from './components/Square'
+import { Square } from './components/Square'
 import { turnosArray } from './constants'
 import { checkWinnerFromLogic, checEndGameFromLogic } from './logic/board'
-import { WinnerModal } from "./components/WinnerModal"
+import { WinnerModal } from './components/WinnerModal'
 
 function App() {
   //states

@@ -15,6 +15,5 @@ export const checkWinnerFromLogic = (boardToCheck) => {
   }
 
 export const checEndGameFromLogic = (newBoard) => {
-    //usamos every para ver qeu cada casilla de newBoard sea distinta de null, de ser asi esta funcion devolvera true
     return newBoard.every((square) => square !== null)
-  }
+}
